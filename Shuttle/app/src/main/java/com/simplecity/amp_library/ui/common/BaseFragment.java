@@ -91,21 +91,26 @@ public abstract class BaseFragment extends BaseController {
      * @param defValue default animation value
      * @return the duration of the parent fragment's animation
      */
-    private static long getNextAnimationDuration(Fragment fragment, long defValue) {
-        try {
-            // Attempt to get the resource ID of the next animation that
-            // will be applied to the given fragment.
-            Field nextAnimField = Fragment.class.getDeclaredField("mNextAnim");
-            nextAnimField.setAccessible(true);
-            int nextAnimResource = nextAnimField.getInt(fragment);
-            Animation nextAnim = AnimationUtils.loadAnimation(fragment.getActivity(), nextAnimResource);
+private static long getNextAnimationDuration(Fragment fragment, long defValue) {
+    int nextAnimResource = getNextAnimResource(fragment);
+    Animation nextAnim = AnimationUtils.loadAnimation(fragment.getActivity(), nextAnimResource);
+    return (nextAnim == null) ? defValue : nextAnim.getDuration();
+}
 
-            // ...and if it can be loaded, return that animation's duration
-            return (nextAnim == null) ? defValue : nextAnim.getDuration();
-        } catch (NoSuchFieldException | IllegalAccessException | Resources.NotFoundException ignored) {
-            return defValue;
+    // Attempt to get the resource ID of the next animation that
+    // will be applied to the given fragment.
+private static int getNextAnimResource(Fragment fragment) {
+    try {
+        Method method = Fragment.class.getMethod("getNextAnim");
+        if (method != null) {
+            return (int) method.invoke(fragment);
         }
+    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        
     }
+    return 0; 
+}
+
 
     @Override
     public void onDestroy() {
