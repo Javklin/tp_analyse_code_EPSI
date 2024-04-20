@@ -129,8 +129,7 @@ public class QueuePagerFragment extends BaseFragment implements
         recyclerView.addOnScrollListener(new RecyclerViewPreloader<>(new ListPreloader.PreloadModelProvider<QueuePagerItemView>() {
             @Override
             public List<QueuePagerItemView> getPreloadItems(int position) {
-                QueuePagerItemView queuePagerItemView = (QueuePagerItemView) viewModelAdapter.items.get(position);
-                return Collections.singletonList(queuePagerItemView);
+                return Collections.singletonList((QueuePagerItemView) viewModelAdapter.items.get(position));
             }
 
             @Override

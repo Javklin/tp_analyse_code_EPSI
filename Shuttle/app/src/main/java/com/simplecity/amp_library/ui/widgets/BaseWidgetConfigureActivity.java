@@ -358,11 +358,21 @@ public abstract class BaseWidgetConfigureActivity extends BaseActivity implement
                     text3.setTextColor(textColor);
                 }
 
-                ImageButton shuffleButton = widgetLayout.findViewById(R.id.shuffle_button);
-                ImageButton prevButton = widgetLayout.findViewById(R.id.prev_button);
-                ImageButton playButton = widgetLayout.findViewById(R.id.play_button);
-                ImageButton skipButton = widgetLayout.findViewById(R.id.next_button);
-                ImageButton repeatButton = widgetLayout.findViewById(R.id.repeat_button);
+                widgetLayout.findViewById(R.id.shuffle_button).setOnClickListener(view -> {
+                });
+                
+                widgetLayout.findViewById(R.id.prev_button).setOnClickListener(view -> {
+                });
+                
+                widgetLayout.findViewById(R.id.play_button).setOnClickListener(view -> {
+                });
+                
+                widgetLayout.findViewById(R.id.next_button).setOnClickListener(view -> {
+                });
+                
+                widgetLayout.findViewById(R.id.repeat_button).setOnClickListener(view -> {
+
+                });
 
                 final ImageView albumArt = widgetLayout.findViewById(R.id.album_art);
                 if (albumArt != null) {

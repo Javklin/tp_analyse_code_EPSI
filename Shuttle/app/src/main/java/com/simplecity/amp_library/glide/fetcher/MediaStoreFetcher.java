@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 public class MediaStoreFetcher extends BaseFetcher {
 
-    String TAG = "MediaStoreFetcher";
+    String mediaStoreFetcherTag = "MediaStoreFetcher";
 
     private Context applicationContext;
 
@@ -17,7 +17,7 @@ public class MediaStoreFetcher extends BaseFetcher {
 
     @Override
     protected String getTag() {
-        return TAG;
+        return mediaStoreFetcherTag ;
     }
 
     @Override

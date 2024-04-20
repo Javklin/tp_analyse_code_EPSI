@@ -20,9 +20,13 @@ public class HttpClient {
 
     public static final String TAG_ARTWORK = "artwork";
 
-    public static synchronized HttpClient getInstance() {
+    public static HttpClient getInstance() {
         if (sInstance == null) {
-            sInstance = new HttpClient();
+            synchronized (HttpClient.class) {
+                if (sInstance == null) {
+                    sInstance = new HttpClient();
+                }
+            }
         }
         return sInstance;
     }
