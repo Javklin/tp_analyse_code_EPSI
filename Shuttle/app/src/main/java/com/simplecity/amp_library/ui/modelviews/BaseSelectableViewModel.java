@@ -40,7 +40,7 @@ public abstract class BaseSelectableViewModel<VH extends BaseViewHolder> extends
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
 
-        BaseSelectableViewModel that = (BaseSelectableViewModel) other;
+        BaseSelectableViewModel<T> that = (BaseSelectableViewModel<T>) other;
 
         return isSelected == that.isSelected;
     }

@@ -43,13 +43,14 @@ interface Repository {
         fun getSongs(genre: Genre): Observable<List<Song>>
     }
 
-    interface AlbumsRepository {
+    typealias AlbumsFetcher = () -> Observable<List<Album>>
 
-        /**
-         * Returns a continuous List of [Album]s
-         */
-        fun getAlbums(): Observable<List<Album>>
+    val fetchAlbums: AlbumsFetcher = {
+        // Implementation of fetching albums
     }
+
+    // Usage
+    val albumsObservable = fetchAlbums()
 
     interface AlbumArtistsRepository {
 
