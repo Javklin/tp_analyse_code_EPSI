@@ -120,6 +120,15 @@ public class SafManager {
         return null;
     }
 
+    public String getRelativePath(File file, String baseFolder) {
+        try {
+            String fullPath = file.getCanonicalPath();
+            return fullPath.substring(baseFolder.length() + 1);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
     /**
      * Retrieve a DocumentFile for the passed in File, or null it can't be created.
      *
@@ -138,12 +147,9 @@ public class SafManager {
         if (treeUri == null) {
             return null;
         }
-
-        String relativePath;
-        try {
-            String fullPath = file.getCanonicalPath();
-            relativePath = fullPath.substring(baseFolder.length() + 1);
-        } catch (IOException e) {
+        
+        String relativePath = getRelativePath(file, baseFolder);
+        if (relativePath == null) {
             return null;
         }
 
@@ -217,11 +223,7 @@ public class SafManager {
                             Log.w(TAG, "Unexpected external file dir: " + file.getAbsolutePath());
                         } else {
                             String path = file.getAbsolutePath().substring(0, index);
-                            try {
-                                path = new File(path).getCanonicalPath();
-                            } catch (IOException e) {
-                                // Keep non-canonical path.
-                            }
+                            path = getCanonicalPathIfPossible(path);
                             paths.add(path);
                         }
                     }
@@ -231,6 +233,15 @@ public class SafManager {
             Crashlytics.log("getExtSdCardPaths() failed. " + e.getMessage());
         }
         return paths;
+    }
+    
+    private String getCanonicalPathIfPossible(String path) {
+        try {
+            return new File(path).getCanonicalPath();
+        } catch (IOException e) {
+            // Keep non-canonical path.
+            return path;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
