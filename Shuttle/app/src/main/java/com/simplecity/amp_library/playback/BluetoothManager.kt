@@ -22,61 +22,69 @@ class BluetoothManager(
 
     private var a2dpReceiver: BroadcastReceiver? = null
 
-    fun registerBluetoothReceiver(context: Context) {
+fun registerBluetoothReceiver(context: Context) {
+    val filter = IntentFilter().apply {
+        addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED)
+        addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)
+    }
 
-        val filter = IntentFilter()
-        filter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED)
-        filter.addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)
+    bluetoothReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val action = intent.action ?: return
+            val extras = intent.extras
 
-        bluetoothReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
+            handleBluetoothDisconnect(extras, action)
+            handleBluetoothConnect(extras, action)
+        }
+    }
 
-                val action = intent.action
-                if (action != null) {
-                    val extras = intent.extras
-                    if (settingsManager.bluetoothPauseDisconnect) {
-                        when (action) {
-                            BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED -> if (extras != null) {
-                                val state = extras.getInt(BluetoothA2dp.EXTRA_STATE)
-                                val previousState = extras.getInt(BluetoothA2dp.EXTRA_PREVIOUS_STATE)
-                                if ((state == BluetoothA2dp.STATE_DISCONNECTED || state == BluetoothA2dp.STATE_DISCONNECTING) && previousState == BluetoothA2dp.STATE_CONNECTED) {
-                                    analyticsManager.dropBreadcrumb(TAG, "ACTION_AUDIO_STATE_CHANGED.. pausing. State: $state")
-                                    playbackManager.pause(false)
-                                }
-                            }
-                            BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED -> if (extras != null) {
-                                val state = extras.getInt(BluetoothHeadset.EXTRA_STATE)
-                                val previousState = extras.getInt(BluetoothHeadset.EXTRA_PREVIOUS_STATE)
-                                if (state == BluetoothHeadset.STATE_AUDIO_DISCONNECTED && previousState == BluetoothHeadset.STATE_AUDIO_CONNECTED) {
-                                    analyticsManager.dropBreadcrumb(TAG, "ACTION_AUDIO_STATE_CHANGED.. pausing. State: $state")
-                                    playbackManager.pause(false)
-                                }
-                            }
-                        }
-                    }
+    context.registerReceiver(bluetoothReceiver, filter)
+}
 
-                    if (settingsManager.bluetoothResumeConnect) {
-                        when (action) {
-                            BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED -> if (extras != null) {
-                                val state = extras.getInt(BluetoothA2dp.EXTRA_STATE)
-                                if (state == BluetoothA2dp.STATE_CONNECTED) {
-                                    playbackManager.play()
-                                }
-                            }
-                            BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED -> if (extras != null) {
-                                val state = extras.getInt(BluetoothHeadset.EXTRA_STATE)
-                                if (state == BluetoothHeadset.STATE_AUDIO_CONNECTED) {
-                                    playbackManager.play()
-                                }
-                            }
-                        }
-                    }
-                }
+private fun handleBluetoothDisconnect(extras: Bundle?, action: String) {
+    if (!settingsManager.bluetoothPauseDisconnect) return
+
+    when (action) {
+        BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED -> {
+            val state = extras?.getInt(BluetoothA2dp.EXTRA_STATE) ?: return
+            val previousState = extras.getInt(BluetoothA2dp.EXTRA_PREVIOUS_STATE)
+
+            if ((state == BluetoothA2dp.STATE_DISCONNECTED || state == BluetoothA2dp.STATE_DISCONNECTING) &&
+                previousState == BluetoothA2dp.STATE_CONNECTED
+            ) {
+                analyticsManager.dropBreadcrumb(TAG, "ACTION_AUDIO_STATE_CHANGED.. pausing. State: $state")
+                playbackManager.pause(false)
             }
         }
+        BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED -> {
+            val state = extras?.getInt(BluetoothHeadset.EXTRA_STATE) ?: return
 
-        context.registerReceiver(bluetoothReceiver, filter)
+            if (state == BluetoothHeadset.STATE_AUDIO_DISCONNECTED) {
+                analyticsManager.dropBreadcrumb(TAG, "ACTION_AUDIO_STATE_CHANGED.. pausing. State: $state")
+                playbackManager.pause(false)
+            }
+        }
     }
+}
+
+private fun handleBluetoothConnect(extras: Bundle?, action: String) {
+    if (!settingsManager.bluetoothResumeConnect) return
+
+    when (action) {
+        BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED -> {
+            val state = extras?.getInt(BluetoothA2dp.EXTRA_STATE) ?: return
+            if (state == BluetoothA2dp.STATE_CONNECTED) {
+                playbackManager.play()
+            }
+        }
+        BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED -> {
+            val state = extras?.getInt(BluetoothHeadset.EXTRA_STATE) ?: return
+            if (state == BluetoothHeadset.STATE_AUDIO_CONNECTED) {
+                playbackManager.play()
+            }
+        }
+    }
+}
 
     fun unregisterBluetoothReceiver(context: Context) {
         context.unregisterReceiver(bluetoothReceiver)
