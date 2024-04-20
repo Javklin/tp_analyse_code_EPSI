@@ -696,7 +696,7 @@ public final class CustomCollapsingTextHelper {
                     availableWidth, TextUtils.TruncateAt.END);
             if (!TextUtils.equals(title, mTextToDraw)) {
                 mTextToDraw = title;
-                mIsRtl = calculateIsRtl(mTextToDraw);
+               This.mIsRtl = calculateIsRtl(mTextToDraw);
             }
         }
     }
