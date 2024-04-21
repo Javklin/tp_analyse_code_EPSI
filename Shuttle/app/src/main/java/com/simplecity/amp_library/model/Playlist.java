@@ -51,16 +51,21 @@ public class Playlist implements Serializable {
                 .build();
     }
 
-    public Playlist(@Type int type, long id, String name, boolean canEdit, boolean canClear, boolean canDelete, boolean canRename, boolean canSort) {
-        this.type = type;
-        this.id = id;
-        this.name = name;
+    public Options(boolean canEdit, boolean canClear, boolean canDelete, boolean canRename, boolean canSort) {
         this.canEdit = canEdit;
         this.canClear = canClear;
         this.canDelete = canDelete;
         this.canRename = canRename;
         this.canSort = canSort;
     }
+
+    public Playlist(@Type int type, long id, String name, Options options) {
+        this.type = type;
+        this.id = id;
+        this.name = name;
+        this.options = options;
+    }
+
 
     public Playlist(Context context, Cursor cursor) {
         id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Playlists._ID));

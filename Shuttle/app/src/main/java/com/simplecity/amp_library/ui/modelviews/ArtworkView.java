@@ -130,7 +130,7 @@ public class ArtworkView extends BaseViewModel<ArtworkView.ViewHolder> {
                         return false;
                     }
                 })
-                .into(new ImageViewTarget<BitmapAndSize>(((ViewHolder) holder).imageView) {
+                .into(new ImageViewTarget<BitmapAndSize>(holder.imageView) {
                     @Override
                     protected void setResource(BitmapAndSize resource) {
                         holder.textContainer.setBackgroundResource(R.drawable.text_protection_scrim_reversed);

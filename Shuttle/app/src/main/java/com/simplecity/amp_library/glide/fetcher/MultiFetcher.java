@@ -51,7 +51,7 @@ public class MultiFetcher implements DataFetcher<InputStream> {
         InputStream inputStream = null;
 
         //Custom/user selected artwork. Loads from a specific source.
-        UserSelectedArtwork userSelectedArtwork = ((ShuttleApplication) applicationContext).userSelectedArtwork.get(artworkProvider.getArtworkKey());
+        UserSelectedArtwork userSelectedArtwork = ShuttleApplication.userSelectedArtwork.get(artworkProvider.getArtworkKey());
         if (userSelectedArtwork != null) {
             switch (userSelectedArtwork.type) {
                 case ArtworkProvider.Type.MEDIA_STORE:

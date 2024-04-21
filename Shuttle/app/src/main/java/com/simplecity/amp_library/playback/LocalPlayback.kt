@@ -50,6 +50,7 @@ abstract class LocalPlayback(context: Context) : Playback {
     private var currentAudioFocusState = AudioFocus.NO_FOCUS_NO_DUCK
 
     private val audioNoisyIntentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+    private var isPlaybackPaused: Boolean = false
 
     override var callbacks: Callbacks? = null
 
@@ -90,8 +91,11 @@ abstract class LocalPlayback(context: Context) : Playback {
     }
 
     override fun willResumePlayback(): Boolean {
-        // Fixme: This returns true even after manually pausing playback. This should not be the case.
+    if (isPlaybackPaused) {
+        return false
+    } else {
         return playOnFocusGain
+    }
     }
 
     @CallSuper

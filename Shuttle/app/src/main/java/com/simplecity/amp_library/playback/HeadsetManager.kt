@@ -14,27 +14,18 @@ class HeadsetManager(
     private var headsetReceiver: BroadcastReceiver? = null
 
     fun registerHeadsetPlugReceiver(context: Context) {
-
-        val filter = IntentFilter()
-        filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
+        val filter = IntentFilter().apply {
+            addAction(AudioManager.ACTION_HEADSET_PLUG)
+        }
 
         headsetReceiver = object : BroadcastReceiver() {
-
             override fun onReceive(context: Context, intent: Intent) {
-
-                if (isInitialStickyBroadcast) {
-                    return
-                }
-
-                if (intent.hasExtra("state")) {
-                    if (intent.getIntExtra("state", 0) == 0) {
-                        if (playbackSettingsManager.pauseOnHeadsetDisconnect) {
-                            playbackManager.pause(false)
-                        }
-                    } else if (intent.getIntExtra("state", 0) == 1) {
-                        if (playbackSettingsManager.playOnHeadsetConnect) {
-                            playbackManager.play()
-                        }
+                if (!isInitialStickyBroadcast && intent.hasExtra("state")) {
+                    val state = intent.getIntExtra("state", 0)
+                    if (state == 0 && playbackSettingsManager.pauseOnHeadsetDisconnect) {
+                        playbackManager.pause(false)
+                    } else if (state == 1 && playbackSettingsManager.playOnHeadsetConnect) {
+                        playbackManager.play()
                     }
                 }
             }

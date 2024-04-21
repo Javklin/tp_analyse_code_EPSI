@@ -179,10 +179,9 @@ public class TaggerUtils {
         FileChannel source = null;
         FileChannel destination = null;
 
-        try {
-            source = new FileInputStream(sourceFile).getChannel();
-            destination = new FileOutputStream(destFile).getChannel();
-            destination.transferFrom(source, 0, source.size());
+        try (FileInputStream source = new FileInputStream(sourceFile);
+        FileOutputStream destination = new FileOutputStream(destFile)) {
+       source.getChannel().transferTo(0, source.getChannel().size(), destination.getChannel());
         } finally {
             if (source != null) {
                 source.close();

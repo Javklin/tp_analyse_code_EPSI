@@ -255,17 +255,11 @@ public class EqualizerFragment extends BaseFragment implements
             mEqualizerSeekBar[band].setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
-
                     if (fromUser) {
-                        //Determine which band changed
+                        // Determine which band changed
                         int seekbarId = seekBar.getId();
-                        int band = 0;
-                        for (int i = 0; i < eqViewElementIds.length; i++) {
-                            if (eqViewElementIds[i][1] == seekbarId) {
-                                band = i;
-                            }
-                        }
-
+                        int band = findBandIndex(seekbarId);
+                        
                         if (eqPreset != eqCustomPresetPosition) {
                             equalizerCopyToCustom();
                             if (spinnerAdapter != null && spinnerAdapter.getCount() > eqCustomPresetPosition) {
@@ -277,6 +271,17 @@ public class EqualizerFragment extends BaseFragment implements
                         }
                     }
                 }
+                
+                private int findBandIndex(int seekbarId) {
+                    int band = 0;
+                    for (int i = 0; i < eqViewElementIds.length; i++) {
+                        if (eqViewElementIds[i][1] == seekbarId) {
+                            return i
+                        }
+                    }
+                    return band;
+                }
+                
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
