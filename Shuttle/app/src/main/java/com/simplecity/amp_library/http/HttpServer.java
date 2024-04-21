@@ -130,11 +130,17 @@ public class HttpServer {
                         long contentLength = end - start + 1;
                         cleanupAudioStream();
                         audioInputStream = new FileInputStream(file);
-                        audioInputStream.skip(start);
-                        Response response = newFixedLengthResponse(Response.Status.PARTIAL_CONTENT, getMimeType(audioFileToServe), audioInputStream, contentLength);
-                        response.addHeader("Content-Length", contentLength + "");
-                        response.addHeader("Content-Range", "bytes " + start + "-" + end + "/" + fileLength);
-                        response.addHeader("Content-Type", getMimeType(audioFileToServe));
+                        long skippedBytes = audioInputStream.skip(start);
+                        Response response;
+                        if (skippedBytes >= 0) {
+                            response = newFixedLengthResponse(Response.Status.PARTIAL_CONTENT, getMimeType(audioFileToServe), audioInputStream, contentLength);
+                            response.addHeader("Content-Length", contentLength + "");
+                            response.addHeader("Content-Range", "bytes " + start + "-" + end + "/" + fileLength);
+                            response.addHeader("Content-Type", getMimeType(audioFileToServe));
+                        } else {
+                            // Handle if skip fails
+                            response = newFixedLengthResponse(Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, "Failed to skip bytes in audio file");
+                        }
                         return response;
                     } else {
                         return newFixedLengthResponse(Response.Status.RANGE_NOT_SATISFIABLE, RESPONSE_TYPE_HTML, range);
