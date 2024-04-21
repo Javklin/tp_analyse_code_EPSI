@@ -23,9 +23,8 @@ public class HttpClient {
     public static HttpClient getInstance() {
         if (sInstance == null) {
             synchronized (HttpClient.class) {
-                if (sInstance == null) {
                     sInstance = new HttpClient();
-                }
+                
             }
         }
         return sInstance;
