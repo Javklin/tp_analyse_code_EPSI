@@ -95,11 +95,12 @@ public class MediaManager {
                         e -> LogUtils.logException(TAG, "Shuffle all error", e));
     }
 
+    Random random = new Random();
     public void shuffleAll(@NotNull List<Song> songs, @NotNull Function0<Unit> onEmpty) {
         analyticsManager.dropBreadcrumb(TAG, "shuffleAll()");
         setShuffleMode(QueueManager.ShuffleMode.ON);
         if (!songs.isEmpty()) {
-            playAll(songs, new Random().nextInt(songs.size()), false, onEmpty);
+            playAll(songs, random.nextInt(songs.size()), false, onEmpty);
         }
     }
 

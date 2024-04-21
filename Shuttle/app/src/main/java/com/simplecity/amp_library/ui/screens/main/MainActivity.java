@@ -74,17 +74,17 @@ public class MainActivity extends BaseActivity implements
     Repository.SongsRepository songsRepository;
 
     @Inject
-    AnalyticsManager analyticsManager;
+    com.simplecity.amp_library.utils.AnalyticsManager analyticsManagerAlt;
 
     @Inject
-    SettingsManager settingsManager;
+    com.simplecity.amp_library.utils.SettingsManager settingsManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
 
-        analyticsManager.dropBreadcrumb(TAG, "onCreate()");
+        analyticsManagerAlt.dropBreadcrumb(TAG, "onCreate()");
 
         // If we haven't set any defaults, do that now
         if (Aesthetic.isFirstTime(this)) {
@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity implements
                     .colorStatusBarAuto()
                     .apply();
 
-            analyticsManager.logInitialTheme(theme);
+            analyticsManagerAlt.logInitialTheme(theme);
         }
 
         setContentView(R.layout.activity_main);
@@ -130,7 +130,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        analyticsManager.dropBreadcrumb(TAG, "onCreate()");
+        analyticsManagerAlt.dropBreadcrumb(TAG, "onCreate()");
 
         showChangelogDialog();
     }
@@ -138,7 +138,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         super.onServiceConnected(name, service);
-        analyticsManager.dropBreadcrumb(TAG, "onServiceConnected()");
+        analyticsManagerAlt.dropBreadcrumb(TAG, "onServiceConnected()");
 
         handlePendingPlaybackRequest();
     }
@@ -154,14 +154,14 @@ public class MainActivity extends BaseActivity implements
     protected void onPause() {
         super.onPause();
 
-        analyticsManager.dropBreadcrumb(TAG, "onPause()");
+        analyticsManagerAlt.dropBreadcrumb(TAG, "onPause()");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        analyticsManager.dropBreadcrumb(TAG, "onDestroy()");
+        Alt.dropBreadcrumb(TAG, "onDestroy()");
     }
 
     private void handleIntent(Intent intent) {

@@ -52,7 +52,7 @@ public class FileBrowser {
         if (files != null) {
             for (File file : files) {
                 BaseFileObject baseFileObject;
-
+            
                 if (file.isDirectory()) {
                     baseFileObject = new FolderObject();
                     baseFileObject.path = FileHelper.getPath(file);
@@ -66,10 +66,6 @@ public class FileBrowser {
                                 ((FolderObject) baseFileObject).fileCount++;
                             }
                         }
-                    } else {
-                        continue;
-                    }
-                    if (!folderObjects.contains(baseFileObject)) {
                         folderObjects.add(baseFileObject);
                     }
                 } else {
@@ -78,16 +74,13 @@ public class FileBrowser {
                     baseFileObject.name = FileHelper.getName(file.getName());
                     baseFileObject.size = file.length();
                     ((FileObject) baseFileObject).extension = FileHelper.getExtension(file.getName());
-                    if (TextUtils.isEmpty(((FileObject) baseFileObject).extension)) {
-                        continue;
-                    }
-                    ((FileObject) baseFileObject).tagInfo = new TagInfo(baseFileObject.path);
-
-                    if (!fileObjects.contains(baseFileObject)) {
+                    if (!TextUtils.isEmpty(((FileObject) baseFileObject).extension)) {
+                        ((FileObject) baseFileObject).tagInfo = new TagInfo(baseFileObject.path);
                         fileObjects.add(baseFileObject);
                     }
                 }
             }
+            
         }
 
         sortFileObjects(fileObjects);

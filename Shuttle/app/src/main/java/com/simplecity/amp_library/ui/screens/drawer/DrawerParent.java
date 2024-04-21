@@ -286,10 +286,11 @@ public class DrawerParent implements Parent<DrawerChild> {
             if (objectAnimator != null) {
                 objectAnimator.cancel();
             }
-
-            objectAnimator = ObjectAnimator.ofFloat(expandableIcon, View.ROTATION,
-                    expanded ? expandableIcon.getRotation() : expandableIcon.getRotation(),
-                    expanded ? 0f : -180f);
+        
+            float startRotation =  expandableIcon.getRotation();
+            float endRotation = expanded ? 0f : -180f;
+        
+            objectAnimator = ObjectAnimator.ofFloat(expandableIcon, View.ROTATION, startRotation, endRotation);
             objectAnimator.setDuration(250);
             objectAnimator.setStartDelay(expanded ? 100 : 0);
             objectAnimator.setInterpolator(new DecelerateInterpolator(1.2f));

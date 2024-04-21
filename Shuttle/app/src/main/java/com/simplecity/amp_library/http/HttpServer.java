@@ -95,9 +95,11 @@ public class HttpServer {
 
                     Map<String, String> headers = session.getHeaders();
                     String range = null;
-                    for (String key : headers.keySet()) {
+                    for (Map.Entry<String, String> entry : headers.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
                         if ("range".equals(key)) {
-                            range = headers.get(key);
+                            range = value;
                         }
                     }
 

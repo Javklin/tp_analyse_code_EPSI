@@ -93,27 +93,29 @@ public class TaggerTask extends AsyncTask<Object, Integer, Boolean> {
 
         boolean requiresPermission = TaggerUtils.requiresPermission(applicationContext, paths);
 
-        for (int i = 0; i < paths.size(); i++) {
+        boolean shouldContinue = true;
+        for (int i = 0; i < paths.size() && shouldContinue; i++) {
             final String path = paths.get(i);
             try {
                 try (AudioFile audioFile = AudioFileIO.read(new File(path))) {
                     Tag tag = audioFile.getTag();
                     if (tag == null) {
+                        shouldContinue = false;
                         break;
                     }
-            
+                    
                     TagUpdate tagUpdate = new TagUpdate(tag);
-            
+                    
                     tagUpdate.softSetArtist(artistText);
                     tagUpdate.softSetAlbumArtist(albumArtistText);
                     tagUpdate.softSetGenre(genreText);
                     tagUpdate.softSetYear(yearText);
-            
+                    
                     if (showAlbum) {
                         tagUpdate.softSetAlbum(albumText);
                         tagUpdate.softSetDiscTotal(discTotalText);
                     }
-            
+                    
                     if (showTrack) {
                         tagUpdate.softSetTitle(titleText);
                         tagUpdate.softSetTrack(trackText);
@@ -122,17 +124,18 @@ public class TaggerTask extends AsyncTask<Object, Integer, Boolean> {
                         tagUpdate.softSetLyrics(lyricsText);
                         tagUpdate.softSetComment(commentText);
                     }
-            
+                    
                     File temp = null;
                     if (tagUpdate.hasChanged()) {
                         if (TaggerUtils.requiresPermission(applicationContext, paths)) {
                             temp = new File(applicationContext.getFilesDir(), orig.getName());
                             tempFiles.add(temp);
                             TaggerUtils.copyFile(orig, temp);
-            
+                    
                             try (AudioFile updatedAudioFile = AudioFileIO.read(temp)) {
                                 Tag updatedTag = updatedAudioFile.getTag();
                                 if (updatedTag == null) {
+                                    shouldContinue = false;
                                     break;
                                 }
                                 tagUpdate.updateTag(updatedTag);
@@ -142,7 +145,7 @@ public class TaggerTask extends AsyncTask<Object, Integer, Boolean> {
                             tagUpdate.updateTag(tag);
                             AudioFileIO.write(audioFile);
                         }
-            
+                    
                         if (requiresPermission && temp != null) {
                             DocumentFile documentFile = documentFiles.get(i);
                             if (documentFile != null) {
@@ -159,16 +162,15 @@ public class TaggerTask extends AsyncTask<Object, Integer, Boolean> {
                             }
                         }
                     }
-            
+                    
                     publishProgress(i);
                     success = true;
                 }
-            } 
-            catch (CannotWriteException | IOException | CannotReadException | InvalidAudioFrameException | TagException | ReadOnlyFileException e) {
+            } catch (CannotWriteException | IOException | CannotReadException | InvalidAudioFrameException | TagException | ReadOnlyFileException e) {
                 e.printStackTrace();
             } finally {
                 //Try to clean up our temp files
-                if (tempFiles != null && tempFiles.size() != 0) {
+                if (tempFiles != null && !tempFiles.isEmpty() ) {
                     for (int j = tempFiles.size() - 1; j >= 0; j--) {
                         File file = tempFiles.get(j);
                         file.delete();
