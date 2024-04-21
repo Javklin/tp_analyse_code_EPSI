@@ -212,11 +212,12 @@ public class Album implements
     public String getRemoteArtworkUrl() {
         try {
             return "https://artwork.shuttlemusicplayer.app/api/v1/artwork"
-                    + "?artist=" + URLEncoder.encode(albumArtistName, Charset.forName("UTF-8").name())
-                    + "&album=" + URLEncoder.encode(name, Charset.forName("UTF-8").name());
+                    + "?artist=" + URLEncoder.encode(albumArtistName, StandardCharsets.UTF_8)
+                    + "&album=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
         } catch (UnsupportedEncodingException e) {
             return null;
         }
+        
     }
 
     @Override

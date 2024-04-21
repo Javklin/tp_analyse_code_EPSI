@@ -61,7 +61,7 @@ public class Equalizer {
 
     public void releaseEffects() {
         Stream.of(mAudioSessions.values())
-                .filter(effectSet -> effectSet != null)
+                .filter(Objects::nonNull)
                 .forEach(EffectSet::release);
     }
 
