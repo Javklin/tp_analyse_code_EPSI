@@ -237,3 +237,6 @@ LISTE DES CORRECTIONS FAITES
 
 79 method of random that return floating point values should not be used in random integer generation
 1 base – 0 maintenant
+
+80 String.ValueOf() should not be appended to a String
+1 base – 0 maintenant
