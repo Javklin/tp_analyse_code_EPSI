@@ -240,3 +240,6 @@ LISTE DES CORRECTIONS FAITES
 
 80 String.ValueOf() should not be appended to a String
 1 base – 0 maintenant
+
+81 check for precondition should be simplified
+1 base – X maintenant
