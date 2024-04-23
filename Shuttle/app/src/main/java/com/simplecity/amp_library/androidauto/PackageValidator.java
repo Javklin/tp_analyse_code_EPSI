@@ -131,8 +131,8 @@ public class PackageValidator {
         }
 
         Log.i(TAG, String.format(
-                "Caller has a valid certificate, but its package doesn't match any expected package for the given certificate. Caller's package is %s. Expected packages as defined in res/xml/allowed_media_browser_callers.xml are (%s). This caller's certificate is: \n%s",
-                callingPackage, expectedPackages, signature));
+            "Caller has a valid certificate, but its package doesn't match any expected package for the given certificate. Caller's package is %s. Expected packages as defined in res/xml/allowed_media_browser_callers.xml are (%s). This caller's certificate is: %n%s",
+            callingPackage, expectedPackages, signature));
 
         return false;
     }

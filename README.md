@@ -242,4 +242,7 @@ LISTE DES CORRECTIONS FAITES
 1 base – 0 maintenant
 
 81 check for precondition should be simplified
-1 base – X maintenant
+1 base – 0 maintenant
+
+82 format strings should be used correctly
+1 base – 0 maintenant
