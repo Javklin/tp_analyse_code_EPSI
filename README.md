@@ -121,7 +121,7 @@ LISTE DES CORRECTIONS FAITES
 40 unused assigments should be removed
 7 base – 2 maintenant
 
-41 Exported compenant access should be restricted with appropriate permissions
+41 Exported component access should be restricted with appropriate permissions
 7 base – 6 maintenant
 
 42 Array designators should be on the type not the variable
@@ -270,3 +270,6 @@ LISTE DES CORRECTIONS FAITES
 
 90 "Math.abs" and negation should not be used on numbers that could be "MIN_VALUE"
 1 base – 0 maintenant
+
+91 Math operands should be cast before assignment
+2 base – X maintenant

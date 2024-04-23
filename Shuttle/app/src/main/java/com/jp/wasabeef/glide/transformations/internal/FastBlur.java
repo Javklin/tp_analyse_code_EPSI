@@ -106,7 +106,7 @@ public class FastBlur {
         double sigma = radius / 3.0;
         double sigma22 = 2 * sigma * sigma;
         double sqrtPiSigma22 = Math.sqrt(Math.PI * sigma22);
-        double radius2 = radius * radius;
+        double radius2 = (double) radius * radius;
     
         int index = 0;
         int total = 0;
