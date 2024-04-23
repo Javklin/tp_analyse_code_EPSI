@@ -249,3 +249,6 @@ LISTE DES CORRECTIONS FAITES
 
 83 Unused type parameters should be removed
 1 base – 0 maintenant
+
+84 Synchronized classes "Vector", "Hashtable", "Stack" and "StringBuffer" should not be used
+1 base – 0 maintenant
