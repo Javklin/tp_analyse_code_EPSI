@@ -199,7 +199,7 @@ LISTE DES CORRECTIONS FAITES
 66 title should be present on in all pages
 2 base – 1 maintenant
 
-67 Collection.isEmpty should be used to test for emptyness
+67 Collection.isEmpty should be used to test for emptiness
 2 base – 1 maintenant
 
 68 random objects should be reused
@@ -251,4 +251,10 @@ LISTE DES CORRECTIONS FAITES
 1 base – 0 maintenant
 
 84 Synchronized classes "Vector", "Hashtable", "Stack" and "StringBuffer" should not be used
+1 base – 0 maintenant
+
+85 Parentheses should be removed from a single lambda parameter when its type is inferred
+1 base – 0 maintenant
+
+86 Fields in a "Serializable" class should either be transient or serializable
 1 base – 0 maintenant

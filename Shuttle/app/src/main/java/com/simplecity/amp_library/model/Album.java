@@ -35,7 +35,7 @@ public class Album implements
     public long lastPlayed;
     public long dateAdded;
 
-    public List<String> paths = new ArrayList<>();
+    private List<String> paths = new ArrayList<>();
 
     public int songPlayCount;
 
