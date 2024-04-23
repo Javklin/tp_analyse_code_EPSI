@@ -46,6 +46,9 @@ public class MediaManager {
     private AnalyticsManager analyticsManager;
 
     private SettingsManager settingsManager;
+    
+    private final Random random = ThreadLocalRandom.current();
+
 
     @Inject
     public MediaManager(AnalyticsManager analyticsManager, SettingsManager settingsManager) {
@@ -95,7 +98,7 @@ public class MediaManager {
                         e -> LogUtils.logException(TAG, "Shuffle all error", e));
     }
 
-    Random random = new Random();
+    
     public void shuffleAll(@NotNull List<Song> songs, @NotNull Function0<Unit> onEmpty) {
         analyticsManager.dropBreadcrumb(TAG, "shuffleAll()");
         setShuffleMode(QueueManager.ShuffleMode.ON);
