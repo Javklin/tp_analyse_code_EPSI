@@ -272,4 +272,4 @@ LISTE DES CORRECTIONS FAITES
 1 base – 0 maintenant
 
 91 Math operands should be cast before assignment
-2 base – X maintenant
+2 base – 1 maintenant
