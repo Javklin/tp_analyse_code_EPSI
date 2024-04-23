@@ -246,3 +246,6 @@ LISTE DES CORRECTIONS FAITES
 
 82 format strings should be used correctly
 1 base – 0 maintenant
+
+83 Unused type parameters should be removed
+1 base – 0 maintenant
