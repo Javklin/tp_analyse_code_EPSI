@@ -232,5 +232,5 @@ LISTE DES CORRECTIONS FAITES
 77 Double brace initialisation should not be used
 1 base – 0 maintenant
 
-77 Double check locking should not be used 
+78 Double check locking should not be used 
 1 base – 0 maintenant
