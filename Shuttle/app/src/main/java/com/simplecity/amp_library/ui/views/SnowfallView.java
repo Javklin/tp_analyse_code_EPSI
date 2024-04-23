@@ -120,7 +120,7 @@ public class SnowfallView extends View {
 
     public void letItSnow(AnalyticsManager analyticsManager) {
         if (snowflakes.isEmpty()) {
-            if (lerp(0f, 1f, snowRng.nextFloat()) <= LUCKY) {
+            if (lerp(0f, 1f, snowRng.nextInt()) <= LUCKY) {
                 fetchSnowConfig(analyticsManager);
             }
         }
@@ -166,14 +166,14 @@ public class SnowfallView extends View {
     void addSnow(int numFlakes) {
         for (int i = 0; i < numFlakes; i++) {
             final double angle = toRadians(lerp(MIN_ANGLE, MAX_ANGLE, snowRng.nextDouble()));
-            final float speed = lerp(MIN_SPEED, MAX_SPEED, snowRng.nextFloat());
+            final float speed = lerp(MIN_SPEED, MAX_SPEED, snowRng.nextInt());
             final float velX = (float) ((double) speed * cos(angle));
             final float velY = (float) ((double) speed * sin(angle));
-            final float size = lerp(MIN_SIZE, MAX_SIZE, snowRng.nextFloat());
-            final float startX = lerp(0f, (float) getWidth(), snowRng.nextFloat());
-            float startY = lerp(0f, (float) getHeight(), snowRng.nextFloat());
+            final float size = lerp(MIN_SIZE, MAX_SIZE, snowRng.nextInt());
+            final float startX = lerp(0f, (float) getWidth(), snowRng.nextInt());
+            float startY = lerp(0f, (float) getHeight(), snowRng.nextInt());
             startY -= (float) getHeight() - size;
-            final int alpha = (int) lerp((float) MIN_ALPHA, (float) MAX_ALPHA, snowRng.nextFloat());
+            final int alpha = (int) lerp((float) MIN_ALPHA, (float) MAX_ALPHA, snowRng.nextInt());
             snowflakes.add(new Snowflake(startX, startY, velX, velY, size, alpha));
         }
         invalidate();

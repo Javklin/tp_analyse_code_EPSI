@@ -234,3 +234,6 @@ LISTE DES CORRECTIONS FAITES
 
 78 Double check locking should not be used 
 1 base – 0 maintenant
+
+79 method of random that return floating point values should not be used in random integer generation
+1 base – 0 maintenant
