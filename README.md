@@ -258,3 +258,15 @@ LISTE DES CORRECTIONS FAITES
 
 86 Fields in a "Serializable" class should either be transient or serializable
 1 base – 0 maintenant
+
+87 Unused "private" methods should be removed
+1 base – 0 maintenant
+
+88 Constructors of an "abstract" class should not be declared "public"
+1 base – 0 maintenant
+
+89 Boolean literals should not be redundant
+2 base – 0 maintenant
+
+90 "Math.abs" and negation should not be used on numbers that could be "MIN_VALUE"
+1 base – 0 maintenant
