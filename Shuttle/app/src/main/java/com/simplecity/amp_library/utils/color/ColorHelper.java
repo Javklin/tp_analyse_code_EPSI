@@ -229,6 +229,7 @@ public class ColorHelper {
         private static final double XYZ_KAPPA = 903.3;
 
         private static final ThreadLocal<double[]> TEMP_ARRAY = new ThreadLocal<>();
+        TEMP_ARRAY.remove();
 
         private ColorUtilsFromCompat() {}
 

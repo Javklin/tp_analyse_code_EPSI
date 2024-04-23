@@ -225,3 +225,12 @@ LISTE DES CORRECTIONS FAITES
 
 75 Loops should not contain more then a single statement
 2 base – 1 maintenant
+
+76 ThreadLocal variable should be cleaned up when no longer used
+1 base – 0 maintenant
+
+77 Double brace initialisation should not be used
+1 base – 0 maintenant
+
+77 Double check locking should not be used 
+1 base – 0 maintenant
